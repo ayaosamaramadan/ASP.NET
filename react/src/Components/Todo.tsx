@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import type { TodoType } from "../types/type";
+import { useSelector } from "react-redux";
 
 const Todo = () => {
-  const [editId, setEditId] = useState<number | null>(null);
-  const [editTitle, setEditTitle] = useState("");
+  const {editId ,editTitle,title,todos
+   , setEditId,setEditTitle,setTodos,setTitle
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }=useSelector((state: any) => state.todos);
+  // const [editTitle, setEditTitle] = useState("");
 
   const handleEdit = (todo: TodoType) => {
     setEditId(todo.id);
@@ -25,10 +29,10 @@ const Todo = () => {
       console.error("Error updating todo:", err);
     }
   };
-  const [title, setTitle] = useState("");
-  const [todos, setTodos] = useState<
-    TodoType[]
-  >([]);
+  // const [title, setTitle] = useState("");
+  // const [todos, setTodos] = useState<
+  //   TodoType[]
+  // >([]);
 
   const fetchTodos = async () => {
     try {
@@ -83,7 +87,7 @@ const Todo = () => {
           {todos.length === 0 ? (
             <li>No todos found.</li>
           ) : (
-            todos.map((todo) => (
+            todos.map((todo: TodoType) => (
               <li key={todo.id}>
                 {editId === todo.id ? (
                   <>
