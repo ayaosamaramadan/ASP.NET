@@ -1,18 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import axios from "axios";
 import type { TodoType } from "../types/type";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setEditId, setEditTitle, setTodos, setTitle } from "../store/slice";
 
 const Todo = () => {
-  const {editId ,editTitle,title,todos
-   , setEditId,setEditTitle,setTodos,setTitle
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }=useSelector((state: any) => state.todos);
+  const { editId, editTitle, title, todos } = useSelector(
+    (state: any) => state.todos
+  );
+  const dispatch = useDispatch();
   // const [editTitle, setEditTitle] = useState("");
 
   const handleEdit = (todo: TodoType) => {
-    setEditId(todo.id);
-    setEditTitle(todo.title);
+    dispatch(setEditId(todo.id));
+    dispatch(setEditTitle(todo.title));
   };
 
   const handleUpdate = async (id: number) => {
@@ -22,8 +25,8 @@ const Todo = () => {
         title: editTitle,
         isComplete: false,
       });
-      setEditId(null);
-      setEditTitle("");
+      dispatch(setEditId(null));
+      dispatch(setEditTitle(""));
       fetchTodos();
     } catch (err) {
       console.error("Error updating todo:", err);
@@ -38,10 +41,10 @@ const Todo = () => {
     try {
       const res = await axios.get("/api/todo");
 
-      setTodos(Array.isArray(res.data) ? res.data : []);
+      dispatch(setTodos(Array.isArray(res.data) ? res.data : []));
     } catch (err) {
       console.error(" Error fetching todos:", err);
-      setTodos([]);
+      dispatch(setTodos([]));
     }
   };
 
@@ -54,7 +57,7 @@ const Todo = () => {
     if (!title.trim()) return;
     try {
       await axios.post("/api/todo", { title, isComplete: false });
-      setTitle("");
+      dispatch(setTitle(""));
       fetchTodos();
     } catch (err) {
       console.error("Error creating todo:", err);
@@ -76,9 +79,9 @@ const Todo = () => {
         <h1>Todo List</h1>
         <form onSubmit={handleSubmit}>
           <input
-            type=" text"
+            type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => dispatch(setTitle(e.target.value))}
             placeholder="Enter todo title"
           />
           <button type="submit">Add</button>
@@ -92,13 +95,15 @@ const Todo = () => {
                 {editId === todo.id ? (
                   <>
                     <input
-                    title="Edit Todo"
+                      title="Edit Todo"
                       type="text"
                       value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
+                      onChange={(e) => dispatch(setEditTitle(e.target.value))}
                     />
                     <button onClick={() => handleUpdate(todo.id)}>Save</button>
-                    <button onClick={() => setEditId(null)}>Cancel</button>
+                    <button onClick={() => dispatch(setEditId(null))}>
+                      Cancel
+                    </button>
                   </>
                 ) : (
                   <>

@@ -1,6 +1,7 @@
-import { createSlice,
-    //  PayloadAction
-     } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  //  PayloadAction
+} from "@reduxjs/toolkit";
 
 type Todo = { id: number; title: string; isComplete: boolean };
 
@@ -9,11 +10,6 @@ interface TodoState {
   editId?: number | null;
   editTitle?: string;
   title?: string;
- 
-  setEditId?: (id: number | null) => void;
-  setEditTitle?: (title: string) => void;
-  setTodos?: (todos: Todo[]) => void;
-  setTitle?: (title: string) => void;
 }
 
 const initialState: TodoState = {
@@ -21,29 +17,27 @@ const initialState: TodoState = {
   editId: null,
   editTitle: "",
   title: "",
-
-  setEditId: (id: number | null) => {
-    initialState.editId = id;
-  },
-  setEditTitle: (title: string) => {
-    initialState.editTitle = title;
-  },
-  setTodos: (todos: Todo[]) => {
-    initialState.todos = todos;
-  },
-  setTitle: (title: string) => {
-    initialState.title = title;
-  },
-
 };
 
 const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-  
+    setTodos: (state, action: { payload: Todo[] }) => {
+      state.todos = action.payload;
+    },
+    setEditId: (state, action: { payload: number | null }) => {
+      state.editId = action.payload;
+    },
+    setEditTitle: (state, action: { payload: string }) => {
+      state.editTitle = action.payload;
+    },
+    setTitle: (state, action: { payload: string }) => {
+      state.title = action.payload;
+    },
   },
 });
 
-// export const { } = todoSlice.actions;
+export const { setTodos, setEditId, setEditTitle, setTitle } =
+  todoSlice.actions;
 export default todoSlice.reducer;
