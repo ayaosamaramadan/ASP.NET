@@ -21,6 +21,16 @@ public class TodoController : ControllerBase
     {
         return Ok(todos);
     }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteTodo(int id)
+    {
+        var todo = todos.Find(t => t.Id == id);
+        if (todo == null)
+            return NotFound();
+        todos.Remove(todo);
+        return NoContent();
+    }
 }
 
 public class TodoItem
@@ -29,3 +39,4 @@ public class TodoItem
     public string? Title { get; set; }
     public bool IsComplete { get; set; }
 }
+
