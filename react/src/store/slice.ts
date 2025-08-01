@@ -1,15 +1,10 @@
-import {
-  createSlice,
-  //  PayloadAction
-} from "@reduxjs/toolkit";
-
-type Todo = { id: number; title: string; isComplete: boolean };
-
+import { createSlice } from "@reduxjs/toolkit";
+import type { TodoType } from "../types/type";
 interface TodoState {
-  todos: Todo[];
-  editId?: number | null;
-  editTitle?: string;
-  title?: string;
+  todos: TodoType[];
+  editId: number | null;
+  editTitle: string;
+  title: string;
 }
 
 const initialState: TodoState = {
@@ -23,7 +18,7 @@ const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    setTodos: (state, action: { payload: Todo[] }) => {
+    setTodos: (state, action: { payload: TodoType[] }) => {
       state.todos = action.payload;
     },
     setEditId: (state, action: { payload: number | null }) => {
