@@ -50,9 +50,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.AspNetCore.OpenApi": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[6.2.3, )"
             }
           },
           "imports": [
