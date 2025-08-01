@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import type { TodoType } from "../types/type";
 
 const Todo = () => {
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState("");
 
-  const handleEdit = (todo: {
-    id: number;
-    title: string;
-    isComplete: boolean;
-  }) => {
+  const handleEdit = (todo: TodoType) => {
     setEditId(todo.id);
     setEditTitle(todo.title);
   };
@@ -30,7 +27,7 @@ const Todo = () => {
   };
   const [title, setTitle] = useState("");
   const [todos, setTodos] = useState<
-    { id: number; title: string; isComplete: boolean }[]
+    TodoType[]
   >([]);
 
   const fetchTodos = async () => {
