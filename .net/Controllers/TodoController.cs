@@ -22,6 +22,17 @@ public class TodoController : ControllerBase
         return Ok(todos);
     }
 
+    [HttpPut("{id}")]
+    public IActionResult UpdateTodo(int id, [FromBody] TodoItem updatedTodo)
+    {
+        var todo = todos.Find(t => t.Id == id);
+        if (todo == null)
+            return NotFound();
+        todo.Title = updatedTodo.Title;
+        todo.IsComplete = updatedTodo.IsComplete;
+        return Ok(todo);
+    }
+
     [HttpDelete("{id}")]
     public IActionResult DeleteTodo(int id)
     {
