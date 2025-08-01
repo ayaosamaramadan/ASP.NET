@@ -1,24 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 function App() {
   const [title, setTitle] = useState("");
+  const [todos, setTodos] = useState<
+    { id: number; title: string; isComplete: boolean }[]
+  >([]);
+
+  const fetchTodos = async () => {
+    try {
+      const res = await axios.get("/api/todo");
+ 
+      
+
+        setTodos(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+         console.error(" Error fetching todos:"
+          , err);
+      setTodos([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-    await fetch("/api/todo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, isComplete: false }),
-    });
-    setTitle("");
-    // Optionally: show a success message or refresh list
+    try {
+      await axios.post(
+        "/api/todo", { title, isComplete: false }
+      );
+      setTitle("");
+      fetchTodos();
+    } catch (err) {
+      console.error("Error creating todo:", err);
+    }
   };
 
   return (
     <div className="container">
-      <h1>Create Todo</h1>
+      <h1>Todo List</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -28,6 +52,13 @@ function App() {
         />
         <button type="submit">Add</button>
       </form>
+      <ul>
+        {todos.length === 0 ? (
+          <li>No todos found.</li>
+        ) : (
+          todos.map((todo) => <li key={todo.id}>{todo.title}</li>)
+        )}
+      </ul>
     </div>
   );
 }

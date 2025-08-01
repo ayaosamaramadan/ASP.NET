@@ -15,6 +15,12 @@ public class TodoController : ControllerBase
         todos.Add(todo);
         return CreatedAtAction(nameof(CreateTodo), new { id = todo.Id }, todo);
     }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<TodoItem>> GetTodos()
+    {
+        return Ok(todos);
+    }
 }
 
 public class TodoItem
