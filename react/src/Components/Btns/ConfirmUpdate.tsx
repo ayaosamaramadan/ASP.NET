@@ -17,7 +17,7 @@ const ConfirmUpdate = ({
 
   const handleUpdate = async (id: number) => {
     try {
-      await axios.put(`/api/todo/${id}`, {
+      await axios.put(`https://aspnet-production.up.railway.app/api/todo/${id}`, {
         id,
         title: editTitle,
         isComplete: false,

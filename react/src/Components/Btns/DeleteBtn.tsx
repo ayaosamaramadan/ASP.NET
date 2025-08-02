@@ -11,7 +11,7 @@ const DeleteBtn = ({
 }) => {
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`/api/todo/${id}`);
+      await axios.delete(`https://aspnet-production.up.railway.app/api/todo/${id}`);
       fetchTodos();
     } catch (err) {
       console.error("Error deleting todo:", err);

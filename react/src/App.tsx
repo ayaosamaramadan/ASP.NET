@@ -12,7 +12,7 @@ const App = () => {
 
   const fetchTodos = useCallback(async () => {
     try {
-      const res = await axios.get("/api/todo");
+      const res = await axios.get("https://aspnet-production.up.railway.app/api/todo");
       dispatch(setTodos(Array.isArray(res.data) ? res.data : []));
     } catch (err) {
       console.error(" Error fetching todos:", err);

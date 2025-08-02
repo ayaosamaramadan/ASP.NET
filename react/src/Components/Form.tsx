@@ -11,7 +11,7 @@ const Form = ({ fetchTodos }: { fetchTodos: () => void }) => {
     e.preventDefault();
     if (!title.trim()) return;
     try {
-      await axios.post("/api/todo", { title, isComplete: false });
+      await axios.post("https://aspnet-production.up.railway.app/api/todo", { title, isComplete: false });
       dispatch(setTitle(""));
       fetchTodos();
     } catch (err) {
